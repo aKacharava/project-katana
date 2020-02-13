@@ -26,6 +26,9 @@ public class Player : AnimationSprite
         }
     }
 
+    /// <summary>
+    /// Updates the player
+    /// </summary>
     void Update()
     {
         Attack();
