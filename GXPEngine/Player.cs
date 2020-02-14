@@ -14,6 +14,7 @@ public class Player : AnimationSprite
     float _accelerationSpeed = +0.3f;
     float _speedX = 0;
     float _speedY = 0;
+
     bool _moveRight;
     bool _moveLeft;
     bool _dashing;
@@ -66,6 +67,15 @@ public class Player : AnimationSprite
             Mirror(true, false);
             accelerate(_accelerationSpeed);
             Moving(-_speedX, 0);
+
+            if (x <= game.width / 2)
+            {
+                game.x += _speedX;
+                if (game.x >= 0)
+                {
+                    game.x = 0;
+                }
+            }
         }
         else if (Input.GetKey(Key.RIGHT) && _moveLeft == false)
         {
@@ -73,6 +83,16 @@ public class Player : AnimationSprite
             Mirror(false, false);
             accelerate(_accelerationSpeed);
             Moving(_speedX, 0);
+
+            if (x >= game.width / 3)
+            {
+                game.x -= _speedX;
+
+                if (game.x <= -300)
+                {
+                    game.x = -300;
+                }
+            }
         }
         else
         {
