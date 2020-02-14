@@ -14,28 +14,45 @@ public class Player : AnimationSprite
     float _accelerationSpeed = +0.3f;
     float _speedX = 0;
     float _speedY = 0;
+    bool _moveRight;
+    bool _moveLeft;
+    bool _dashing;
+    bool _attacking;
+
+    int _animationDrawBetweenFrames;
+    int _step;
 
     public Player(float x, float y) : base("img/objects/player.png", 5, 1)
     {
         SetXY(x, y);
         width = PLAYER_SIZE_WIDTH;
         height = PLAYER_SIZE_HEIGHT;
-        for (int i = 0; i < 5; i++)
-        {
-            NextFrame();
-        }
+        _animationDrawBetweenFrames = 10;
+        _step = 0;
     }
 
     void Update()
     {
+        Idle();
         Attack();
         Dashing();
         Movement();
         Gravity();
     }
 
-    bool _moveRight;
-    bool _moveLeft;
+    /// <summary>
+    /// Takes care of Idle animation
+    /// </summary>
+    private void Idle()
+    {
+        _step += 1;
+
+        if (_step > _animationDrawBetweenFrames)
+        {
+            NextFrame();
+            _step = 0;
+        }
+    }
 
     /// <summary>
     /// This takes care of the player movement
@@ -65,8 +82,9 @@ public class Player : AnimationSprite
         }
     }
 
-    bool _attacking;
-
+    /// <summary>
+    /// Takes care of attacking
+    /// </summary>
     private void Attack()
     {
         float tempX = x;
@@ -90,8 +108,9 @@ public class Player : AnimationSprite
         }
     }
 
-    bool _dashing;
-
+    /// <summary>
+    /// Takes care of dashing
+    /// </summary>
     private void Dashing()
     {
         if (Input.GetKeyDown(Key.C))
