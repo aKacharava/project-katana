@@ -13,8 +13,6 @@ public class MyGame : Game
 
     void Update()
     {
-
-
         /// Press the 'R' key to reset the level
         if (Input.GetKey(Key.R))
         {
@@ -28,6 +26,7 @@ public class MyGame : Game
         {
             _level.Destroy(); // Destroys level
             _level = null;
+            game.x = 0;
         }
 
         _level = new Level("levels/placeholder-level.tmx");
