@@ -229,11 +229,27 @@ public class Player : AnimationSprite
         y = 100;
     }
 
+    /// <summary>
+    /// Respawn an enemy 
+    /// </summary>
+    /// <param name="other"></param>
     private void Respawn(GameObject other)
     {
         Random random = new Random();
         other.x = random.Next(100, 800);
         other.y = 100;
+    }
+
+    /// <summary>
+    /// Takes care of screen shaking 
+    /// </summary>
+    private void ScreenShake()
+    {
+        if (_attacking == true || _dashing == true)
+        {
+            game.x = Utils.Random(-10, 10);
+            game.y = Utils.Random(-10, 10);
+        }
     }
 
     void OnCollision(GameObject other)

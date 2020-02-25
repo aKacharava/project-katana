@@ -4,31 +4,38 @@ using System.Linq;
 using System.Text;
 using GXPEngine;
 using TiledMapParser;
+using System.IO;
 
 public class Level : GameObject
 {
+    
     public Level(string filename)
     {
+        String pathName = Path.GetDirectoryName(filename);
         Map _leveldata = MapParser.ReadMap(filename);
+        PlaceImageLayer(_leveldata, pathName);
         SpawnTiles(_leveldata);
         SpawnObjects(_leveldata);
     }
 
-    //private void PlaceImageLayer(Map leveldata)
-    //{
-    //    if (leveldata.ImageLayers == null || leveldata.ImageLayers.Length == 0)
-    //        return;
+    /// <summary>
+    /// Add an image layer
+    /// </summary>
+    /// <param name="leveldata"></param>
+    /// <param name="pathName"></param>
+    private void PlaceImageLayer(Map leveldata, string pathName)
+    {
+        if (leveldata.ImageLayers == null || leveldata.ImageLayers.Length == 0)
+            return;
 
-    //    ImageLayer _imageLayer = leveldata.ImageLayers[0];
+        ImageLayer _imageLayer = leveldata.ImageLayers[0];
 
-    //    if (_imageLayer.Image == null)
-    //        return;
+        if (_imageLayer.Image == null)
+            return;
 
-    //    foreach (Image img in _imageLayer.Image)
-    //    {
-
-    //    }
-    //}
+        string imageFilename = Path.Combine(pathName, _imageLayer.Image.FileName);
+        AddChild(new Sprite(imageFilename, true, false));
+    }
 
     /// <summary>
     /// Spawns objects to their positions

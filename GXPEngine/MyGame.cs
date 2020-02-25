@@ -5,7 +5,7 @@ using GXPEngine;                                // GXPEngine contains the engine
 public class MyGame : Game
 {
     Level _level;
-    public MyGame() : base(1920, 1080, false, false)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(1280, 720, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         targetFps = 60;
         ResetLevel();
@@ -32,6 +32,7 @@ public class MyGame : Game
         _level = new Level("levels/placeholder-level.tmx");
         AddChild(_level);
     }
+
 
     static void Main()                          // Main() is the first method that's called when the program is run
     {
