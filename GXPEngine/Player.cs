@@ -19,6 +19,7 @@ public class Player : AnimationSprite
     bool _moveLeft;
     bool _dashing;
     bool _attacking;
+    bool _mirrorX;
 
     int _animationDrawBetweenFrames;
     int _step;
@@ -32,6 +33,8 @@ public class Player : AnimationSprite
         _step = 0;
     }
 
+    ///float targetLevelX = 0.0f;
+
     void Update()
     {
         Idle();
@@ -39,6 +42,37 @@ public class Player : AnimationSprite
         Dashing();
         Movement();
         Gravity();
+        CameraFollowPlayer();
+        
+    }
+
+    private void CameraFollowPlayer()
+    {
+        ///----Room to room
+        //targetLevelX = -Mathf.Floor(x / 1280) * 1280; //eerst afronden, dan vermenigvuldigen
+        //game.x = game.x * 0.9f + targetLevelX * 0.1f;
+
+        ///----Classic
+        if (x + game.x > 700)
+        {
+            game.x = 700 - x;
+        }
+        if (x + game.x < 300)
+        {
+            game.x = 300 - x;
+        }
+
+        game.y = -y;
+
+        if (game.y <= game.y / 2)
+        {
+            game.y = game.y / 2 + 64;
+        }
+
+        if (game.x > 0)
+        {
+            game.x = 0;
+        }
     }
 
     /// <summary>
@@ -68,13 +102,9 @@ public class Player : AnimationSprite
             accelerate(_accelerationSpeed);
             Moving(-_speedX, 0);
 
-            if (x <= game.width / 2)
+            if (x <= 0)
             {
-                game.x += _speedX;
-                if (game.x >= 0)
-                {
-                    game.x = 0;
-                }
+                x = 0;
             }
         }
         else if (Input.GetKey(Key.RIGHT) && _moveLeft == false)
@@ -83,16 +113,6 @@ public class Player : AnimationSprite
             Mirror(false, false);
             accelerate(_accelerationSpeed);
             Moving(_speedX, 0);
-
-            if (x >= game.width / 3)
-            {
-                game.x -= _speedX;
-
-                if (game.x <= -300)
-                {
-                    game.x = -300;
-                }
-            }
         }
         else
         {

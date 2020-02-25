@@ -27,14 +27,17 @@ public class Level : GameObject
     {
         if (leveldata.ImageLayers == null || leveldata.ImageLayers.Length == 0)
             return;
+        int layerIndex = 0;
+        foreach (ImageLayer _imageLayer in leveldata.ImageLayers)
+        {
+            if (_imageLayer.Image == null)
+                continue;
 
-        ImageLayer _imageLayer = leveldata.ImageLayers[0];
+            string imageFilename = Path.Combine(pathName, _imageLayer.Image.FileName);
+            AddChild(new BackgroundSprite(imageFilename, layerIndex));
 
-        if (_imageLayer.Image == null)
-            return;
-
-        string imageFilename = Path.Combine(pathName, _imageLayer.Image.FileName);
-        AddChild(new Sprite(imageFilename, true, false));
+            layerIndex++;
+        }
     }
 
     /// <summary>
