@@ -78,28 +78,30 @@ public class Level : GameObject
     /// <param name="leveldata"> This needs a leveldata map to read out of to get the data of the tiles </param>
     private void SpawnTiles(Map leveldata)
     {
-        if (leveldata.Layers == null || leveldata.Layers.Length == 0)
-            return;
-
-        Layer _mainLayer = leveldata.Layers[0];
-        short[,] _tileNumbers = _mainLayer.GetTileArray();
-
-        for (int row = 0; row < _mainLayer.Height; row++)
+        foreach (Layer _mainLayer in leveldata.Layers)
         {
-            for (int col = 0; col < _mainLayer.Width; col++)
-            {
-                int _tileNumber = _tileNumbers[col, row];
-                TileSet _tiles = leveldata.GetTileSet(_tileNumber);
+            if (leveldata.Layers == null || leveldata.Layers.Length == 0)
+                continue;
 
-                string _filenameTiles = _tiles.Image.FileName;
-                _filenameTiles = _filenameTiles.Remove(0, 3);
-                if (_tileNumber > 0)
+            short[,] _tileNumbers = _mainLayer.GetTileArray();
+
+            for (int row = 0; row < _mainLayer.Height; row++)
+            {
+                for (int col = 0; col < _mainLayer.Width; col++)
                 {
-                    CollisionTile _tile = new CollisionTile(_filenameTiles, _tiles.Columns, _tiles.Rows);
-                    _tile.SetFrame(_tileNumber - _tiles.FirstGId);
-                    _tile.x = col * _tile.width;
-                    _tile.y = row * _tile.height;
-                    AddChild(_tile);
+                    int _tileNumber = _tileNumbers[col, row];
+                    TileSet _tiles = leveldata.GetTileSet(_tileNumber);
+
+                    string _filenameTiles = _tiles.Image.FileName;
+                    _filenameTiles = _filenameTiles.Remove(0, 3);
+                    if (_tileNumber > 0)
+                    {
+                        CollisionTile _tile = new CollisionTile(_filenameTiles, _tiles.Columns, _tiles.Rows);
+                        _tile.SetFrame(_tileNumber - _tiles.FirstGId);
+                        _tile.x = col * _tile.width;
+                        _tile.y = row * _tile.height;
+                        AddChild(_tile);
+                    }
                 }
             }
         }
