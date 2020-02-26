@@ -27,7 +27,9 @@ public class Level : GameObject
     {
         if (leveldata.ImageLayers == null || leveldata.ImageLayers.Length == 0)
             return;
+
         int layerIndex = 0;
+
         foreach (ImageLayer _imageLayer in leveldata.ImageLayers)
         {
             if (_imageLayer.Image == null)
