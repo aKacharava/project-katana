@@ -89,12 +89,14 @@ public class Level : GameObject
             {
                 for (int col = 0; col < _mainLayer.Width; col++)
                 {
+                    bool _isWall = _mainLayer.GetBoolProperty("Wall");
+
                     int _tileNumber = _tileNumbers[col, row];
                     TileSet _tiles = leveldata.GetTileSet(_tileNumber);
 
                     string _filenameTiles = _tiles.Image.FileName;
                     _filenameTiles = _filenameTiles.Remove(0, 3);
-                    if (_tileNumber > 0)
+                    if (_tileNumber > 0 && _isWall == false)
                     {
                         CollisionTile _tile = new CollisionTile(_filenameTiles, _tiles.Columns, _tiles.Rows);
                         _tile.SetFrame(_tileNumber - _tiles.FirstGId);

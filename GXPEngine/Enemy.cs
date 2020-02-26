@@ -15,6 +15,8 @@ public class Enemy : AnimationSprite
     int _animationDrawBetweenFrames;
     int _step;
 
+    GameObject _target;
+
     public Enemy(float x, float y) : base("img/objects/thug-idle.png", 5, 1)
     {
         SetXY(x, y);
@@ -25,10 +27,30 @@ public class Enemy : AnimationSprite
         Mirror(true, false);
     }
 
+    public void SetTarget(GameObject target)
+    {
+        _target = target;
+    }
+
     void Update()
     {
         Gravity();
         Idle();
+
+        if (null == _target)
+        {
+            return;
+        }
+        if (x < _target.x)
+        {
+            _speedX = 5;
+            Move(_speedX, 0.0f);
+        }
+        if (x > _target.x)
+        {
+            _speedX = 5;
+            Move(-_speedX, 0.0f);
+        }
     }
 
     /// <summary>

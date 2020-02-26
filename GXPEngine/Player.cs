@@ -23,6 +23,7 @@ public class Player : AnimationSprite
     int _animationDrawBetweenFrames;
     int _step;
 
+    Sprite _hitbox;
     public Player(float x, float y) : base("img/objects/player.png", 28, 1)
     {
         SetXY(x, y);
@@ -30,6 +31,12 @@ public class Player : AnimationSprite
         height = PLAYER_SIZE_HEIGHT;
         _animationDrawBetweenFrames = 6;
         _step = 0;
+
+        _hitbox = new Sprite("img/objects/colors.png");
+        _hitbox.alpha = 0.0f;
+        AddChild(_hitbox);
+        _hitbox.width = 133;
+        _hitbox.height = 261;
     }
 
     ///float targetLevelX = 0.0f;
@@ -245,7 +252,16 @@ public class Player : AnimationSprite
             //if we went right, place ourself at the left of 'other'
             //if we went left, place ourself at the right of 'other'
             //if we went down .. etc etc
-            isSuccess = false;
+            if (other == _hitbox)
+            {
+                isSuccess = true;
+            }
+            else
+            {
+                isSuccess = false;
+            }
+
+
         }
         if (!isSuccess)
         {
