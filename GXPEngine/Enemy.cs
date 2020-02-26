@@ -4,23 +4,50 @@ using System.Linq;
 using System.Text;
 using GXPEngine;
 
-public class Enemy : Sprite
+public class Enemy : AnimationSprite
 {
-    public const int ENEMY_SIZE = 64;
+    const int ENEMY_SIZE_WIDTH = 64;
+    const int ENEMY_SIZE_HEIGHT = 128;
 
     float _speedX = 0;
     float _speedY = 0;
 
-    public Enemy(float x, float y) : base("img/objects/triangle.png")
+    int _animationDrawBetweenFrames;
+    int _step;
+
+    public Enemy(float x, float y) : base("img/objects/thug-idle.png", 5, 1)
     {
         SetXY(x, y);
-        width = ENEMY_SIZE;
-        height = ENEMY_SIZE;
+        width = ENEMY_SIZE_WIDTH;
+        height = ENEMY_SIZE_HEIGHT;
+        _animationDrawBetweenFrames = 6;
+        _step = 0;
+        Mirror(true, false);
     }
 
     void Update()
     {
         Gravity();
+        Idle();
+    }
+
+    /// <summary>
+    /// Takes care of Idle animation
+    /// </summary>
+    private void Idle()
+    {
+        if (currentFrame == 4)
+        {
+            SetFrame(0);
+        }
+
+        _step += 1;
+
+        if (_step > _animationDrawBetweenFrames)
+        {
+            NextFrame();
+            _step = 0;
+        }
     }
 
     /// <summary>

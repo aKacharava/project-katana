@@ -19,17 +19,16 @@ public class Player : AnimationSprite
     bool _moveLeft;
     bool _dashing;
     bool _attacking;
-    bool _mirrorX;
 
     int _animationDrawBetweenFrames;
     int _step;
 
-    public Player(float x, float y) : base("img/objects/player.png", 5, 1)
+    public Player(float x, float y) : base("img/objects/player.png", 28, 1)
     {
         SetXY(x, y);
         width = PLAYER_SIZE_WIDTH;
         height = PLAYER_SIZE_HEIGHT;
-        _animationDrawBetweenFrames = 10;
+        _animationDrawBetweenFrames = 6;
         _step = 0;
     }
 
@@ -43,7 +42,6 @@ public class Player : AnimationSprite
         Movement();
         Gravity();
         CameraFollowPlayer();
-        
     }
 
     private void CameraFollowPlayer()
@@ -61,6 +59,10 @@ public class Player : AnimationSprite
         {
             game.x = 300 - x;
         }
+        if (game.x > 0)
+        {
+            game.x = 0;
+        }
 
         game.y = -y;
 
@@ -68,11 +70,11 @@ public class Player : AnimationSprite
         {
             game.y = game.y / 2 + 64;
         }
-
-        if (game.x > 0)
+        if (game.y > 0)
         {
-            game.x = 0;
+            game.y = 0;
         }
+        
     }
 
     /// <summary>
@@ -80,12 +82,39 @@ public class Player : AnimationSprite
     /// </summary>
     private void Idle()
     {
-        _step += 1;
-
-        if (_step > _animationDrawBetweenFrames)
+        if (_moveLeft == false && _moveRight == false)
         {
-            NextFrame();
-            _step = 0;
+            if (currentFrame == 4)
+            {
+                SetFrame(0);
+            }
+
+            _step += 1;
+
+            if (_step > _animationDrawBetweenFrames)
+            {
+                NextFrame();
+                _step = 0;
+            }
+        }
+    }
+
+    private void Walking()
+    {
+        if (_moveLeft == true || _moveRight == true)
+        {
+            if (currentFrame == 16)
+            {
+                SetFrame(5);
+            }
+
+            _step += 1;
+
+            if (_step > _animationDrawBetweenFrames)
+            {
+                NextFrame();
+                _step = 0;
+            }
         }
     }
 
@@ -194,6 +223,8 @@ public class Player : AnimationSprite
         if (hasLanded && Input.GetKeyDown(Key.Z))
         {
             _speedY = JUMP_HEIGHT;
+            //SetFrame(18);
+            //_animationDrawBetweenFrames = 0;
         }
     }
 
@@ -256,8 +287,8 @@ public class Player : AnimationSprite
     private void Respawn(GameObject other)
     {
         Random random = new Random();
-        other.x = random.Next(100, 800);
-        other.y = 100;
+        other.x = random.Next(300, 1000);
+        other.y = 600;
     }
 
     /// <summary>
