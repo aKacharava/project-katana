@@ -8,7 +8,8 @@ using System.IO;
 
 public class Level : GameObject
 {
-    
+    public int _enemyCounter;
+
     public Level(string filename)
     {
         String pathName = Path.GetDirectoryName(filename);
@@ -66,7 +67,7 @@ public class Level : GameObject
                     break;
                 case "Guard":
                     Enemy _enemy = new Enemy(obj.X, obj.Y);
-
+                    _enemyCounter++;
                     AddChild(_enemy);
                     break;
             }

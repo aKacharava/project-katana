@@ -40,6 +40,7 @@
     <Compile Include="CollisionTile.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />

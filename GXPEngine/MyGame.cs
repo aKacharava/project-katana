@@ -5,19 +5,25 @@ using GXPEngine;                                // GXPEngine contains the engine
 public class MyGame : Game
 {
     Level _level;
-    public MyGame() : base(1280, 720, true, false)     // Create a window that's 800x600 and NOT fullscreen
+    Menu _menu;
+    public MyGame() : base(1280, 720, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         targetFps = 60;
-        ResetLevel();
+        _menu = new Menu();
+        AddChild(_menu);
+        //ResetLevel();
     }
 
     void Update()
     {
+        _menu.StartGame();
+
         /// Press the 'R' key to reset the level
-        if (Input.GetKey(Key.R))
-        {
-            ResetLevel();
-        }
+        /// 
+        //if (Input.GetKey(Key.R))
+        //{
+        //    ResetLevel();
+        //}
     }
 
     public void ResetLevel()

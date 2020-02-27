@@ -25,7 +25,7 @@ public class Player : AnimationSprite
     int _step;
 
     Sprite _hitbox;
-    public Player(float x, float y) : base("img/objects/player.png", 28, 1)
+    public Player(float x, float y) : base("img/objects/player.png", 23, 1)
     {
         SetXY(x, y);
         width = PLAYER_SIZE_WIDTH;
@@ -91,9 +91,9 @@ public class Player : AnimationSprite
         {
             _animationDrawBetweenFrames = 8;
 
-            if (currentFrame >= 4)
+            if (currentFrame == 16 || currentFrame < 13)
             {
-                SetFrame(0);
+                SetFrame(13);
             }
 
             _step += 1;
@@ -115,9 +115,33 @@ public class Player : AnimationSprite
         {
             _animationDrawBetweenFrames = 2;
 
-            if (currentFrame >= 16 || currentFrame < 5)
+            if (currentFrame >= 12)
             {
-                SetFrame(5);
+                SetFrame(0);
+            }
+
+            _step += 1;
+
+            if (_step > _animationDrawBetweenFrames)
+            {
+                NextFrame();
+                _step = 0;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Takes care of attack animation
+    /// </summary>
+    private void AttackAnimation()
+    {
+        if (_attacking == true)
+        {
+            _animationDrawBetweenFrames = 8;
+
+            if (currentFrame == 21 || currentFrame < 19)
+            {
+                SetFrame(19);
             }
 
             _step += 1;
@@ -173,6 +197,7 @@ public class Player : AnimationSprite
         if (Input.GetKeyDown(Key.X))
         {
             _attacking = true;
+            AttackAnimation();
             if (_mirrorX == false)
             {
                 width += 100;
@@ -197,16 +222,17 @@ public class Player : AnimationSprite
         if (Input.GetKeyDown(Key.Z) && Input.GetKeyDown(Key.X))
         {
             _dashing = true;
+            SetFrame(23);
 
             if (_mirrorX == false)
             {
                 Moving(100, 0);
-                x += _speedX * 2;
+                x += _speedX * 4;
             }
             else if (_mirrorX == true)
             {
                 Moving(-100, 0);
-                x -= _speedX * 2;
+                x -= _speedX * 4;
             }
         }
         else
