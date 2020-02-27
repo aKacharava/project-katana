@@ -35,7 +35,7 @@ public class MyGame : Game
             game.x = 0;
         }
 
-        _level = new Level("levels/placeholder-level.tmx");
+        _level = new Level("levels/casino.tmx");
         AddChild(_level);
     }
 

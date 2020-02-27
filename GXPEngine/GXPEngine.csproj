@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundSprite.cs" />
+    <Compile Include="BackgroundTile.cs" />
     <Compile Include="CollisionTile.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Level.cs" />

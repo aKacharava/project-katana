@@ -108,7 +108,11 @@ public class Level : GameObject
                     }
                     else if (_tileNumber > 0 && _isWall == true)
                     {
-
+                        BackgroundTile _backTile = new BackgroundTile(_filenameTiles, _tiles.Columns, _tiles.Rows);
+                        _backTile.SetFrame(_tileNumber - _tiles.FirstGId);
+                        _backTile.x = col * _backTile.width;
+                        _backTile.y = row * _backTile.height;
+                        AddChild(_backTile);
                     }
                 }
             }

@@ -15,7 +15,7 @@ public class Enemy : AnimationSprite
     int _animationDrawBetweenFrames;
     int _step;
 
-    GameObject _target;
+    //GameObject _target;
 
     public Enemy(float x, float y) : base("img/objects/thug-idle.png", 5, 1)
     {
@@ -24,13 +24,14 @@ public class Enemy : AnimationSprite
         height = ENEMY_SIZE_HEIGHT;
         _animationDrawBetweenFrames = 6;
         _step = 0;
+        _speedX = 5;
         Mirror(true, false);
     }
 
-    public void SetTarget(GameObject target)
-    {
-        _target = target;
-    }
+    //public void SetTarget(GameObject target)
+    //{
+    //    _target = target;
+    //}
 
     void Update()
     {
@@ -58,25 +59,23 @@ public class Enemy : AnimationSprite
         }
     }
 
+    int stepCount = 0;
+
     /// <summary>
     /// This takes care of the enemy movement
     /// </summary>
     private void MovementToPlayer()
     {
-        if (null == _target)
+        Moving(-_speedX, 0.0f);
+        stepCount++;
+
+        if (stepCount > 80) 
         {
-            return;
+            stepCount = 0;
+            _speedX = -_speedX;
+            _mirrorX = !_mirrorX;
         }
-        if (x < _target.x)
-        {
-            _speedX = 5;
-            Move(_speedX, 0.0f);
-        }
-        if (x > _target.x)
-        {
-            _speedX = 5;
-            Move(-_speedX, 0.0f);
-        }
+        
     }
 
     /// <summary>

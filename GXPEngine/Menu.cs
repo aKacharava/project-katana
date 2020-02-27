@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using GXPEngine;
 
 public class Menu : GameObject
@@ -10,7 +11,7 @@ public class Menu : GameObject
 
     public Menu()
     {
-        
+        //graphics.DrawString("PRESS 'JUMP' TO START", Brushes.White, 0, 0);
     }
 
     void Update()
@@ -23,7 +24,7 @@ public class Menu : GameObject
         if (Input.GetKeyDown(Key.Z) && _hasLoaded == false || Input.GetKeyDown(Key.X) && _hasLoaded == false)
         {
             _hasLoaded = true;
-            Level _level = new Level("levels/placeholder-level.tmx");
+            Level _level = new Level("levels/casino.tmx");
             AddChild(_level);
         }
     }
