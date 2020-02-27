@@ -46,8 +46,8 @@
 </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="1" name="Guard" type="Enemy" x="1296.18" y="293.333" width="64" height="64"/>
+  <object id="1" name="Guard" type="Enemy" x="1098.18" y="511.333" width="64" height="64"/>
   <object id="2" name="Player" x="137.636" y="35.6968" width="64" height="64"/>
-  <object id="22" name="Guard" type="Enemy" x="1918" y="418" width="64" height="64"/>
+  <object id="22" name="Guard" type="Enemy" x="1702" y="464" width="64" height="64"/>
  </objectgroup>
 </map>
