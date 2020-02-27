@@ -66,6 +66,7 @@ public class Level : GameObject
                     break;
                 case "Guard":
                     Enemy _enemy = new Enemy(obj.X, obj.Y);
+
                     AddChild(_enemy);
                     break;
             }

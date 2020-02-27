@@ -36,21 +36,7 @@ public class Enemy : AnimationSprite
     {
         Gravity();
         Idle();
-
-        if (null == _target)
-        {
-            return;
-        }
-        if (x < _target.x)
-        {
-            _speedX = 5;
-            Move(_speedX, 0.0f);
-        }
-        if (x > _target.x)
-        {
-            _speedX = 5;
-            Move(-_speedX, 0.0f);
-        }
+        MovementToPlayer();
     }
 
     /// <summary>
@@ -75,9 +61,22 @@ public class Enemy : AnimationSprite
     /// <summary>
     /// This takes care of the enemy movement
     /// </summary>
-    private void Movement()
+    private void MovementToPlayer()
     {
-        ///TODO: Add enemy movement once he detects player
+        if (null == _target)
+        {
+            return;
+        }
+        if (x < _target.x)
+        {
+            _speedX = 5;
+            Move(_speedX, 0.0f);
+        }
+        if (x > _target.x)
+        {
+            _speedX = 5;
+            Move(-_speedX, 0.0f);
+        }
     }
 
     /// <summary>

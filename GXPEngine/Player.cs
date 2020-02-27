@@ -19,6 +19,7 @@ public class Player : AnimationSprite
     bool _moveLeft;
     bool _dashing;
     bool _attacking;
+    bool _jumping;
 
     int _animationDrawBetweenFrames;
     int _step;
@@ -29,21 +30,17 @@ public class Player : AnimationSprite
         SetXY(x, y);
         width = PLAYER_SIZE_WIDTH;
         height = PLAYER_SIZE_HEIGHT;
-        _animationDrawBetweenFrames = 6;
         _step = 0;
 
         _hitbox = new Sprite("img/objects/colors.png");
         _hitbox.alpha = 0.0f;
-        AddChild(_hitbox);
         _hitbox.width = 133;
         _hitbox.height = 261;
+        AddChild(_hitbox);
     }
-
-    ///float targetLevelX = 0.0f;
 
     void Update()
     {
-        Idle();
         Attack();
         Dashing();
         Movement();
@@ -51,6 +48,7 @@ public class Player : AnimationSprite
         CameraFollowPlayer();
     }
 
+    ///float targetLevelX = 0.0f;
     private void CameraFollowPlayer()
     {
         ///----Room to room
@@ -89,9 +87,11 @@ public class Player : AnimationSprite
     /// </summary>
     private void Idle()
     {
-        if (_moveLeft == false && _moveRight == false)
+        if (_moveLeft == false && _moveRight == false && _jumping == false)
         {
-            if (currentFrame == 4)
+            _animationDrawBetweenFrames = 8;
+
+            if (currentFrame >= 4)
             {
                 SetFrame(0);
             }
@@ -106,11 +106,16 @@ public class Player : AnimationSprite
         }
     }
 
-    private void Walking()
+    /// <summary>
+    /// Takes care of walking animation
+    /// </summary>
+    private void WalkingAnimation()
     {
-        if (_moveLeft == true || _moveRight == true)
+        if (_moveLeft == true == _jumping == false || _moveRight == true == _jumping == false)
         {
-            if (currentFrame == 16)
+            _animationDrawBetweenFrames = 2;
+
+            if (currentFrame >= 16 || currentFrame < 5)
             {
                 SetFrame(5);
             }
@@ -130,13 +135,13 @@ public class Player : AnimationSprite
     /// </summary>
     private void Movement()
     {
-        /// Player movement
         if (Input.GetKey(Key.LEFT) && _moveRight == false)
         {
             _moveLeft = true;
             Mirror(true, false);
             accelerate(_accelerationSpeed);
             Moving(-_speedX, 0);
+            WalkingAnimation();
 
             if (x <= 0)
             {
@@ -149,12 +154,14 @@ public class Player : AnimationSprite
             Mirror(false, false);
             accelerate(_accelerationSpeed);
             Moving(_speedX, 0);
+            WalkingAnimation();
         }
         else
         {
             _moveRight = false;
             _moveLeft = false;
             _speedX = 0;
+            Idle();
         }
     }
 
@@ -163,24 +170,22 @@ public class Player : AnimationSprite
     /// </summary>
     private void Attack()
     {
-        float tempX = x;
-
         if (Input.GetKeyDown(Key.X))
         {
             _attacking = true;
-            if (_moveRight == true)
+            if (_mirrorX == false)
             {
-                x += 10;
+                width += 100;
             }
-            else if (_moveLeft == true)
+            else if (_mirrorX == true)
             {
-                x -= 10;
+                width -= 100;
             }
         }
         else
         {
             _attacking = false;
-            x = tempX;
+            width = PLAYER_SIZE_WIDTH;
         }
     }
 
@@ -189,24 +194,24 @@ public class Player : AnimationSprite
     /// </summary>
     private void Dashing()
     {
-        if (Input.GetKeyDown(Key.C))
+        if (Input.GetKeyDown(Key.Z) && Input.GetKeyDown(Key.X))
         {
-            if (_moveRight == true)
+            _dashing = true;
+
+            if (_mirrorX == false)
             {
                 Moving(100, 0);
-                _dashing = true;
-                x += 50;
+                x += _speedX * 2;
             }
-            else if (_moveLeft == true)
+            else if (_mirrorX == true)
             {
                 Moving(-100, 0);
-                _dashing = true;
-                x -= 50;
+                x -= _speedX * 2;
             }
-            else
-            {
-                _dashing = false;
-            }
+        }
+        else
+        {
+            _dashing = false;
         }
     }
 
@@ -217,21 +222,23 @@ public class Player : AnimationSprite
     {
         _speedY++;
         bool hasLanded = false;
+
         if (!Moving(0, _speedY))
         {
             if (_speedY > 0)
             {
                 hasLanded = true;
+                _jumping = false;
             }
             _speedY = 0;
         }
 
         /// Checks if the player has landed and then can jump by pressing the up key
-        if (hasLanded && Input.GetKeyDown(Key.Z))
+        if (hasLanded && Input.GetKeyDown(Key.Z) && _dashing == false)
         {
             _speedY = JUMP_HEIGHT;
-            //SetFrame(18);
-            //_animationDrawBetweenFrames = 0;
+            _jumping = true;
+            currentFrame = 17;
         }
     }
 
@@ -260,8 +267,6 @@ public class Player : AnimationSprite
             {
                 isSuccess = false;
             }
-
-
         }
         if (!isSuccess)
         {
@@ -308,6 +313,15 @@ public class Player : AnimationSprite
     }
 
     /// <summary>
+    /// Kills an object
+    /// </summary>
+    /// <param name="obj"></param>
+    private void Death(GameObject obj)
+    {
+        obj.LateDestroy();
+    }
+
+    /// <summary>
     /// Takes care of screen shaking 
     /// </summary>
     private void ScreenShake()
@@ -325,7 +339,9 @@ public class Player : AnimationSprite
         {
             if (_attacking == true || _dashing == true)
             {
-                Respawn(other);
+                //Respawn(other);
+                Death(other);
+                other = null;
             }
             else
             {
