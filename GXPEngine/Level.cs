@@ -105,6 +105,10 @@ public class Level : GameObject
                         _tile.y = row * _tile.height;
                         AddChild(_tile);
                     }
+                    else if (_tileNumber > 0 && _isWall == true)
+                    {
+
+                    }
                 }
             }
         }

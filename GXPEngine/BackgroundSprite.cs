@@ -7,8 +7,8 @@ namespace GXPEngine
 {
     class BackgroundSprite : Sprite
     {
-
         float _speed = 0.0f;
+
         public BackgroundSprite(string filename, int layerIndex) : base(filename, true, false)
         {
             layerIndex += 1;
