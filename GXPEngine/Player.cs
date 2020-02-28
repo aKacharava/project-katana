@@ -362,6 +362,7 @@ public class Player : AnimationSprite
     private void Death(GameObject obj)
     {
         obj.LateDestroy();
+        _killedEnemies++;
     }
 
     /// <summary>
@@ -389,7 +390,6 @@ public class Player : AnimationSprite
             {
                 Death(other);
                 other = null;
-                _killedEnemies++;
             }
             else
             {

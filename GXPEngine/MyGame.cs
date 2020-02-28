@@ -6,7 +6,6 @@ public class MyGame : Game
 {
     Menu _menu;
     Level _level;
-    Player _player;
     Sound _level1Music;
 
     int _levelSwitch;
@@ -21,7 +20,6 @@ public class MyGame : Game
         _levelSwitch = 0;
         _level1Music = new Sound("sounds/casino_music.mp3", true, false);
         _menu = new Menu();
-        _player = new Player(0,0);
         AddChild(_menu);
         //ResetLevel();
     }
@@ -57,8 +55,12 @@ public class MyGame : Game
         if (_level == null)
             return;
 
+        Type type = (typeof(Player));
+
+        type.GetMethod("GetKilledEnemies");
+
         int count = _level.GetAmountEnemy();
-        kills = _player.GetKilledEnemies();
+        //kills = (Int32)type.GetMethod("GetKilledEnemies");
 
         if (count == kills)
         {
