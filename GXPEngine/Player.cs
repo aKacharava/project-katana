@@ -389,6 +389,7 @@ public class Player : AnimationSprite
             if (_attacking == true || _dashing == true)
             {
                 Death(other);
+                MyGame.kills++;
                 other = null;
             }
             else

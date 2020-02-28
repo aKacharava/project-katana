@@ -11,6 +11,8 @@ public class MyGame : Game
 
     int _levelSwitch;
 
+    public static int kills = 0;
+
     string _firstLevel = "levels/casino.tmx";
     string _secondLevel = "levels/market.tmx";
     string _thirdLevel1 = "levels/japan.tmx";
@@ -49,18 +51,15 @@ public class MyGame : Game
         //}
     }
 
-    int kills;
-
     public void SwitchLevel()
     {
         if (_level == null)
             return;
 
-        Type type = (typeof(Player));
-        MethodInfo mInfo = type.GetMethod("GetKilledEnemies", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        //Type type = (typeof(Player));
+        //MethodInfo mInfo = type.GetMethod("GetKilledEnemies", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
         int count = _level.GetAmountEnemy();
-        //kills = mInfo;
 
         if (count == kills)
         {
