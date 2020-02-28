@@ -244,12 +244,12 @@ public class Player : AnimationSprite
             if (_mirrorX == false)
             {
                 Moving(100, 0);
-                x += 50;
+                x += 100;
             }
             else if (_mirrorX == true)
             {
                 Moving(-100, 0);
-                x -= 50;
+                x -= 100;
             }
         }
         else
