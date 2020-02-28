@@ -60,7 +60,7 @@ public class MyGame : Game
         MethodInfo mInfo = type.GetMethod("GetKilledEnemies", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
         int count = _level.GetAmountEnemy();
-        //kills = mInfo.Invoke;
+        //kills = mInfo;
 
         if (count == kills)
         {
