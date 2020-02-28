@@ -58,10 +58,6 @@ public class Player : AnimationSprite
     ///float targetLevelX = 0.0f;
     private void CameraFollowPlayer()
     {
-        ///----Room to room
-        //targetLevelX = -Mathf.Floor(x / 1280) * 1280; //eerst afronden, dan vermenigvuldigen
-        //game.x = game.x * 0.9f + targetLevelX * 0.1f;
-
         ///----Classic
         if (x + game.x > 700)
         {

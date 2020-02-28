@@ -9,12 +9,9 @@ public class Menu : Sprite
 {
     bool _hasLoaded;
 
-    Sound _menuMusic;
-
     public Menu() : base("img/backgrounds/menu-screen.png", addCollider: false)
     {
-        _menuMusic = new Sound("sounds/menu_music.mp3", true, false);
-        _menuMusic.Play();
+
     }
 
     void Update()
@@ -40,7 +37,6 @@ public class Menu : Sprite
         {
             _hasLoaded = true;
             _level = new Level(mapName);
-            _menuMusic.Play(true);
             GetLevel();
             AddChild(_level);
         }
