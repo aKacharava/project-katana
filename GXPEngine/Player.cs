@@ -23,6 +23,10 @@ public class Player : AnimationSprite
 
     int _animationDrawBetweenFrames;
     int _step;
+    int _killedEnemies;
+
+    Sound _attack1;
+    Sound _attack2;
 
     Sprite _hitbox;
     public Player(float x, float y) : base("img/objects/player.png", 23, 1)
@@ -31,6 +35,9 @@ public class Player : AnimationSprite
         width = PLAYER_SIZE_WIDTH;
         height = PLAYER_SIZE_HEIGHT;
         _step = 0;
+        _killedEnemies = 0;
+        _attack1 = new Sound("sounds/attack_1.mp3", false, false);
+        _attack2 = new Sound("sounds/attack_2.mp3", false, false);
 
         _hitbox = new Sprite("img/objects/colors.png");
         _hitbox.alpha = 0.0f;
@@ -194,10 +201,20 @@ public class Player : AnimationSprite
     /// </summary>
     private void Attack()
     {
-        if (Input.GetKeyDown(Key.X))
+        if (Input.GetKeyDown(Key.X) && _dashing == false)
         {
             _attacking = true;
             AttackAnimation();
+            int rndNumber = Utils.Random(1, 3);
+            if (rndNumber == 1)
+            {
+                _attack1.Play();
+            }
+            else
+            {
+                _attack2.Play();
+            }
+
             if (_mirrorX == false)
             {
                 width += 100;
@@ -359,15 +376,20 @@ public class Player : AnimationSprite
         }
     }
 
+    public int GetKilledEnemies()
+    {
+        return _killedEnemies;
+    }
+
     void OnCollision(GameObject other)
     {
         if (other is Enemy)
         {
             if (_attacking == true || _dashing == true)
             {
-                //Respawn(other);
                 Death(other);
                 other = null;
+                _killedEnemies++;
             }
             else
             {

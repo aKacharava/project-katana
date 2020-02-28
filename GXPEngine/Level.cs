@@ -19,6 +19,11 @@ public class Level : GameObject
         SpawnObjects(_leveldata);
     }
 
+    public int GetAmountEnemy()
+    {
+        return _enemyCounter;
+    }
+
     /// <summary>
     /// Add an image layer
     /// </summary>

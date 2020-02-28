@@ -4,19 +4,43 @@ using GXPEngine;                                // GXPEngine contains the engine
 
 public class MyGame : Game
 {
-    Level _level;
     Menu _menu;
+    Level _level;
+    Player _player;
+    Sound _level1Music;
+
+    int _levelSwitch;
+
+    string _firstLevel = "levels/casino.tmx";
+    string _secondLevel = "levels/market.tmx";
+    string _thirdLevel1 = "levels/japan.tmx";
+    string _thirdLevel2 = "levels/japan_2.tmx";
     public MyGame() : base(1280, 720, false, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         targetFps = 60;
+        _levelSwitch = 0;
+        _level1Music = new Sound("sounds/casino_music.mp3", true, false);
         _menu = new Menu();
+        _player = new Player(0,0);
         AddChild(_menu);
         //ResetLevel();
     }
 
     void Update()
     {
-        _menu.StartGame();
+        if (_menu != null)
+        {
+            _menu.StartGame(_firstLevel);
+
+            if (_menu.HasGameStarted() == true)
+            {
+                _level = _menu.GetLevel();
+                _menu = null;
+                _level1Music.Play(false);
+            }
+        }
+
+        SwitchLevel();
 
         /// Press the 'R' key to reset the level
         /// 
@@ -24,6 +48,41 @@ public class MyGame : Game
         //{
         //    ResetLevel();
         //}
+    }
+
+    int kills;
+
+    public void SwitchLevel()
+    {
+        if (_level == null)
+            return;
+
+        int count = _level.GetAmountEnemy();
+        kills = _player.GetKilledEnemies();
+
+        if (count == kills)
+        {
+            _levelSwitch++;
+
+            switch (_levelSwitch)
+            {
+                case 1:
+                    _level = null;
+                    _level = new Level(_secondLevel);
+                    AddChild(_level);
+                    break;
+                case 2:
+                    _level = null;
+                    _level = new Level(_thirdLevel1);
+                    AddChild(_level);
+                    break;
+                case 3:
+                    _level = null;
+                    _level = new Level(_thirdLevel2);
+                    AddChild(_level);
+                    break;
+            }
+        }
     }
 
     public void ResetLevel()
