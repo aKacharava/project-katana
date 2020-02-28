@@ -1,5 +1,6 @@
 using System;									// System contains a lot of default C# libraries 
 using System.Drawing;                           // System.Drawing contains a library used for canvas drawing below
+using System.Reflection;
 using GXPEngine;                                // GXPEngine contains the engine
 
 public class MyGame : Game
@@ -56,11 +57,10 @@ public class MyGame : Game
             return;
 
         Type type = (typeof(Player));
-
-        type.GetMethod("GetKilledEnemies");
+        MethodInfo mInfo = type.GetMethod("GetKilledEnemies", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
         int count = _level.GetAmountEnemy();
-        //kills = (Int32)type.GetMethod("GetKilledEnemies");
+        //kills = mInfo.Invoke;
 
         if (count == kills)
         {
