@@ -283,6 +283,11 @@ public class Player : AnimationSprite
             _jumping = true;
             currentFrame = 17;
         }
+
+        if (game.y < -500)
+        {
+            SpawnPlayer();
+        }
     }
 
     /// <summary>

@@ -17,7 +17,7 @@ public class MyGame : Game
     string _secondLevel = "levels/market.tmx";
     string _thirdLevel1 = "levels/japan.tmx";
     string _thirdLevel2 = "levels/japan_2.tmx";
-    public MyGame() : base(1280, 720, false, false)     // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() : base(1280, 720, true, false)     // Create a window that's 800x600 and NOT fullscreen
     {
         targetFps = 60;
         _levelSwitch = 0;
@@ -65,20 +65,26 @@ public class MyGame : Game
         {
             _levelSwitch++;
 
+            if (_level != null)
+            {
+                _level.Destroy();
+                _level = null;
+            }
+
             switch (_levelSwitch)
             {
                 case 1:
-                    _level = null;
+                    kills = 0;
                     _level = new Level(_secondLevel);
                     AddChild(_level);
                     break;
                 case 2:
-                    _level = null;
+                    kills = 0;
                     _level = new Level(_thirdLevel1);
                     AddChild(_level);
                     break;
                 case 3:
-                    _level = null;
+                    kills = 0;
                     _level = new Level(_thirdLevel2);
                     AddChild(_level);
                     break;

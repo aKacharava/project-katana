@@ -71,12 +71,42 @@ public class Level : GameObject
                     AddChild(_player);
                     break;
                 case "Guard":
-                    Enemy _enemy = new Enemy(obj.X, obj.Y);
+                    Enemy _enemy = new Enemy(this, obj.X, obj.Y);
                     _enemyCounter++;
                     AddChild(_enemy);
                     break;
             }
         }
+    }
+
+    private bool Overlap(Sprite sprite1, Sprite sprite2)
+    {
+        if (sprite1.x + sprite1.width < sprite2.x) return false;
+        if (sprite1.y + sprite1.height < sprite2.y) return false;
+        if (sprite2.x + sprite2.width < sprite1.x) return false;
+        if (sprite2.y + sprite2.height < sprite1.y) return false;
+        return true;
+    }
+
+    public List<GameObject> GetOverlaps(Sprite sprite)
+    {
+        int spriteBroadX = (int)(sprite.x / 128);
+        List<GameObject> results = new List<GameObject>();
+        foreach (Sprite other in GetChildren())
+        {
+            if (other != sprite)
+            {
+                int otherBroadX = (int)(other.x / 128);
+                if (otherBroadX <= spriteBroadX + 1 && otherBroadX >= spriteBroadX - 1)
+                {
+                    if (Overlap(other, sprite))
+                    {
+                        results.Add(other);
+                    }
+                }
+            }
+        }
+        return results;
     }
 
     /// <summary>

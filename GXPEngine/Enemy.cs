@@ -15,10 +15,13 @@ public class Enemy : AnimationSprite
     int _animationDrawBetweenFrames;
     int _step;
 
+    private Level _level;
+
     //GameObject _target;
 
-    public Enemy(float x, float y) : base("img/objects/thug-idle.png", 5, 1)
+    public Enemy(Level level, float x, float y) : base("img/objects/thug-idle.png", 5, 1)
     {
+        _level = level;
         SetXY(x, y);
         width = ENEMY_SIZE_WIDTH;
         height = ENEMY_SIZE_HEIGHT;
@@ -69,7 +72,7 @@ public class Enemy : AnimationSprite
         Moving(-_speedX, 0.0f);
         stepCount++;
 
-        if (stepCount > 80) 
+        if (stepCount > 40) 
         {
             stepCount = 0;
             _speedX = -_speedX;
@@ -103,7 +106,7 @@ public class Enemy : AnimationSprite
         x += moveX;
         y += moveY;
 
-        foreach (GameObject other in GetCollisions())
+        foreach (GameObject other in _level.GetOverlaps(this))
         {
             //if we went right, place ourself at the left of 'other'
             //if we went left, place ourself at the right of 'other'
